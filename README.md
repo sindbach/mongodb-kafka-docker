@@ -46,7 +46,7 @@ zookeeper-server-start.sh ${KAFKA_HOME}/config/zookeeper.properties &
 kafka-server-start.sh ${KAFKA_HOME}/config/server.properties &
 ```
 
-Now you can stream example documents `Fish.json` via local `producer`: 
+Now you can stream example documents contained in file [Fish.json](kafka/workspace/src/resources/Fish.json) via local `producer`: 
 ```
 kafka-console-producer.sh --broker-list localhost:9092 --topic fish < /home/ubuntu/workspace/src/resources/Fish.json;
 ```
@@ -62,3 +62,5 @@ Once completed, you can check the result via :
 ```
 mongo --host "mongodb:30000" --eval "db=db.getSiblingDB('kafka'); db.fish.find({'breed':'Cod'}).limit(3);"
 ```
+
+See also: [Apache Kafka Quickstart tutorial](https://kafka.apache.org/quickstart)
