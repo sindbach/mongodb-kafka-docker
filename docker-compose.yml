@@ -1,0 +1,20 @@
+version: "3"
+
+services:
+  kafka:
+    build: ./kafka/.
+    hostname: kafka
+    links:
+      - mongodb:mongodb
+    networks:
+      - default
+
+  mongodb:
+    build: ./mongodb/.
+    image: mongodb
+    expose:
+      - 30000
+    ports:
+      - 30000:30000
+    networks: 
+      - default
