@@ -7,7 +7,7 @@ Read more info at [MongoDB & Data Streaming - Implementing a MongoDB Kafka Consu
 This project is using: 
 
 * [MongoDB Java Driver v3.4](http://mongodb.github.io/mongo-java-driver/3.4/)
-* [Apache Kafka v0.8.2.2 (Scala 2.11)](https://www.apache.org/dyn/closer.cgi?path=/kafka/0.8.2.2/kafka_2.11-0.8.2.2.tgz)
+* [Apache Kafka v0.10.2.1 (Scala 2.11)](https://www.apache.org/dyn/closer.cgi?path=/kafka/0.10.2.1/kafka_2.11-0.10.2.1.tgz)
 * [MongoDB v3.4](https://www.mongodb.com/mongodb-3.4)
 
 

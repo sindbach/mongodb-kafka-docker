@@ -17,7 +17,7 @@ RUN useradd --create-home --shell /bin/bash ubuntu
 
 ENV JAVA_HOME /usr/lib/jvm/java-8-openjdk-amd64
 ENV HOME /home/ubuntu
-ENV KAFKA_VERSION 0.8.2.2
+ENV KAFKA_VERSION 0.10.2.1
 ENV SCALA_VERSION 2.11
 
 WORKDIR ${HOME}
