@@ -6,22 +6,22 @@ Read more info at [MongoDB & Data Streaming - Implementing a MongoDB Kafka Consu
 
 This project is using: 
 
-* [MongoDB Java Driver v3.4](http://mongodb.github.io/mongo-java-driver/3.4/)
-* [Apache Kafka v0.10.2.1 (Scala 2.11)](https://www.apache.org/dyn/closer.cgi?path=/kafka/0.10.2.1/kafka_2.11-0.10.2.1.tgz)
-* [MongoDB v3.4](https://www.mongodb.com/mongodb-3.4)
+* [MongoDB Java Driver v3.8](http://mongodb.github.io/mongo-java-driver/3.8/)
+* [Apache Kafka v1.1.1 (Scala 2.11)](https://www.apache.org/dyn/closer.cgi?path=/kafka/1.1.1/kafka_2.11-1.1.1.tgz)
+* [MongoDB v4.0](https://www.mongodb.com/mongodb-4.0)
 
 
-### Starting up
+### Execute
 
 You can start by running command :
 
-```
-docker-compose run kafka bash
+```s
+docker-compose run kafka
 ```
 
-This would run the kafka docker and the mongodb docker, and provides you with bash shell for the kafka.
+This would run the Kafka docker and the mongodb docker, and provides you with bash shell for the Kafka.
 
-From the kafka docker instance, you could reach the MongoDB instance using `mongodb` hostname.
+From the Kafka docker instance, you could reach the MongoDB instance using `mongodb` hostname.
 
 First of all, let's compile the example Java code: 
 
@@ -36,29 +36,65 @@ After a successful build, you should be able to find the resulting `jar` file in
 /home/ubuntu/workspace/target/kafka-demo-1.0-SNAPSHOT.jar
 ```
 
+### Starting Kafka
 
-Let's start a single kafka broker:
+Let's start a single Kafka broker:
 
-```
+```s
 zookeeper-server-start.sh ${KAFKA_HOME}/config/zookeeper.properties &
 kafka-server-start.sh ${KAFKA_HOME}/config/server.properties &
 ```
 
-Now you can stream example documents contained in file [Fish.json](kafka/workspace/src/resources/Fish.json) via local `producer`: 
-```
+### Produce a stream
+
+Now you can stream example documents contained in file [Fish.json](kafka/workspace/src/resources/Fish.json) via local `producer` using the provided Kafka tool: 
+
+```s
 kafka-console-producer.sh --broker-list localhost:9092 --topic fish < /home/ubuntu/workspace/src/resources/Fish.json;
 ```
 
+### Run Kafka Consumer
+
 Execute our earlier `jar` file to read the messages in topic `fish` above into MongoDB
 
-```
-java -jar /home/ubuntu/workspace/target/kafka-demo-1.0-SNAPSHOT.jar
+```s
+java -cp /home/ubuntu/workspace/target/kafka-demo-1.0-SNAPSHOT.jar com.demo.MongoDBSimpleConsumer
 ```
 
-Once completed, you can check the result via : 
+Once completed, you can check the result using [mongo](https://docs.mongodb.com/manual/mongo/) shell: 
 
+```s
+mongo --host "mongodb:30000" --eval "db=db.getSiblingDB('kafka'); db.fish.find({'breed':'Cod'}).limit(5);"
 ```
-mongo --host "mongodb:30000" --eval "db=db.getSiblingDB('kafka'); db.fish.find({'breed':'Cod'}).limit(3);"
+
+### Alternative Producer 
+
+The above method uses the provided Kafka tool `kafka-console-producer.sh` to send the content of JSON file as stream. You can also use a simple Java class producer to send data into the stream. 
+
+```s
+java -cp /home/ubuntu/workspace/target/kafka-demo-1.0-SNAPSHOT.jar com.demo.MongoDBSimpleProducer
 ```
+
+Same as above, once completed you can read the messages in the stream and store into MongoDB using the consumer: 
+
+```s
+java -cp /home/ubuntu/workspace/target/kafka-demo-1.0-SNAPSHOT.jar com.demo.MongoDBSimpleConsumer
+```
+
+Once completed, you can check the result using [mongo](https://docs.mongodb.com/manual/mongo/) shell: 
+
+```s
+mongo --host "mongodb:30000" --eval "db=db.getSiblingDB('kafka'); db.fish.find({'breed':'Random'}).limit(5);"
+```
+
+### Misc.
+
+#### Clear up the topics queue 
+
+```s
+kafka-topics.sh --zookeeper localhost:2181 --delete --topic fish 
+```
+
+### More Information
 
 See also: [Apache Kafka Quickstart tutorial](https://kafka.apache.org/quickstart)
