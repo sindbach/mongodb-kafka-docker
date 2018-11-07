@@ -11,9 +11,11 @@ import kafka.javaapi.*;
 import kafka.javaapi.consumer.SimpleConsumer;
 import kafka.message.MessageAndOffset;
 
-import com.mongodb.MongoClient;
+import com.mongodb.client.MongoClients;
+import com.mongodb.client.MongoClient;
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoDatabase;
+import com.mongodb.ConnectionString;
 import org.bson.Document;
 
 import java.nio.ByteBuffer;
@@ -27,16 +29,11 @@ import java.lang.reflect.Type;
 public class MongoDBSimpleConsumer {
     public static void main(String args[]) {
         MongoDBSimpleConsumer example = new MongoDBSimpleConsumer();
-        //long maxReads = Long.parseLong(args[0]);
         long maxReads = 100;
-        //String topic = args[1];
         String topic = "fish";
-        //int partition = Integer.parseInt(args[2]);
         int partition = 0;
         List<String> seeds = new ArrayList<String>();
-        //seeds.add(args[3]);
         seeds.add("127.0.0.1");
-        //int port = Integer.parseInt(args[4]);
         int port = 9092;
         try {
             example.run(maxReads, topic, partition, seeds, port);
@@ -107,7 +104,8 @@ public class MongoDBSimpleConsumer {
             numErrors = 0;
             long numRead = 0;
 
-            MongoClient client = new MongoClient("mongodb", 30000);
+            MongoClient client = MongoClients.create(new ConnectionString("mongodb://mongodb:30000"));
+
             MongoDatabase db = client.getDatabase("kafka");
             MongoCollection<Document> fishCollection = db.getCollection("fish");
             Gson gson = new Gson();
