@@ -8,7 +8,7 @@ public class Fish {
     private Breed breed;
 
     public enum Breed {
-        Cod, Goldfish, Bass, Billy, Kipper, Turbot
+        Cod, Goldfish, Bass, Billy, Kipper, Turbot, Random
     };
 
     public Fish(int internationalFishId, String name, Breed breed) {
@@ -49,7 +49,10 @@ public class Fish {
             case Billy:  breedString = "Billy";
                 break;
             case Kipper:  breedString = "Kipper";
-                break;            case Turbot:  breedString = "Turbot";
+                break;            
+            case Turbot:  breedString = "Turbot";
+                break;
+            case Random:  breedString = "Random";
                 break;
             default: breedString = "Unknown breed";
                 break;
