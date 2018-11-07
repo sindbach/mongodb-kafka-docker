@@ -39,9 +39,3 @@ public class MongoDBSimpleProducer {
         producer.close();
     }
 }
-
-/*
-java -cp /vbox/code/mongodb-kafka-docker/kafka/workspace/target/kafka-demo-1.0-SNAPSHOT.jar com.demo.MongoDBSimpleConsumer.java
-java -cp /vbox/code/mongodb-kafka-docker/kafka/workspace/target/kafka-demo-1.0-SNAPSHOT.jar com.demo.MongoDBSimpleProducer
-/home/ubuntu/kafka_2.11-1.1.1/bin/kafka-topics.sh --zookeeper localhost:2181 --delete --topic fish 
-*/
