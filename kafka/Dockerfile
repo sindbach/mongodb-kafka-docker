@@ -1,8 +1,12 @@
-FROM ubuntu:16.04
+FROM ubuntu:18.04
 
-RUN apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv 0C49F3730359A14518585931BC711F9BA15703C6
+ENV DEBIAN_FRONTEND=noninteractive
 
-RUN echo "deb [ arch=amd64,arm64 ] http://repo.mongodb.org/apt/ubuntu xenial/mongodb-org/3.4 multiverse" | tee /etc/apt/sources.list.d/mongodb-org-3.4.list
+RUN apt-get update && apt-get install -y gnupg sudo
+
+RUN apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv 9DA31620334BD75D9DCB49F368818C72E52529D4
+
+RUN echo "deb [ arch=amd64 ] http://repo.mongodb.org/apt/ubuntu bionic/mongodb-org/4.0 multiverse" |  tee /etc/apt/sources.list.d/mongodb-org-4.0.list
 
 RUN apt-get update -y && apt-get install -y \
 default-jdk \
@@ -15,9 +19,9 @@ rm -rf /var/lib/apt/lists/*
 
 RUN useradd --create-home --shell /bin/bash ubuntu
 
-ENV JAVA_HOME /usr/lib/jvm/java-8-openjdk-amd64
+ENV JAVA_HOME /usr/lib/jvm/java-11-openjdk-amd64
 ENV HOME /home/ubuntu
-ENV KAFKA_VERSION 0.10.2.1
+ENV KAFKA_VERSION 1.1.1
 ENV SCALA_VERSION 2.11
 
 WORKDIR ${HOME}
@@ -36,3 +40,5 @@ RUN wget http://apache.mirror.digitalpacific.com.au/kafka/${KAFKA_VERSION}/kafka
 tar xvf kafka_${SCALA_VERSION}-${KAFKA_VERSION}.tgz
 
 RUN rm -fv kafka_${SCALA_VERSION}-${KAFKA_VERSION}.tgz
+
+CMD ["/bin/bash"]  
