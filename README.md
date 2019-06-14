@@ -1,4 +1,10 @@
 # Docker for MongoDB And Apache Kafka
+
+** UPDATE ** 
+
+This has been superseeded by [MongoDB Kafka Docker: End to End Example](https://github.com/mongodb/mongo-kafka/blob/master/docker/README.md#mongodb--kafka-docker-end-to-end-example). Which utilises [MongoDB Kafka Connector](https://github.com/mongodb/mongo-kafka)
+
+
 An example of docker to set up a single Apache Kafka broker with MongoDB as consumer. 
 Read more info at [MongoDB & Data Streaming - Implementing a MongoDB Kafka Consumer](https://www.mongodb.com/blog/post/mongodb-and-data-streaming-implementing-a-mongodb-kafka-consumer)
 
